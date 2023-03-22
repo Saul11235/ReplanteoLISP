@@ -31,44 +31,45 @@
 
   ;-------------------------------------------
   ; Dibuja la marca para la visibilidad del punto replanteado
-  (defun dibujaMarcadorPunto (punto) (
-    (setq longitud ( * dimensiontexto 4 ) )
-    (setq coordenadax (car punto ) )
-    (setq coordenaday (cadr punto) )
-    (setq coordCentro (list coordenadax coordenaday)) ; coordenadas cruz
-    (setq extremo1    (list (- coordenadax longitud) coordenaday ))
-    (setq extremo2    (list (+ coordenadax longitud) coordenaday ))
-    (setq extremo3    (list coordenadax (+ coordenaday longitud) ))
-    (setq extremo4    (list coordenadax (- coordenaday longitud) ))
-    (command "_.line"   extremo1 extremo2 "" )
-    (command "_.line"   extremo3 extremo4 "" )
-    (command "_.circle" coordCentro (* longitud 0.5) "" )
-    )
+  (defun dibujaCruz (punto) (
+      (setq longitud ( * dimensiontexto 4 ) )
+      (setq coordenadax (car punto ) )
+      (setq coordenaday (cadr punto) )
+      (setq coordCentro (list coordenadax coordenaday)) ; coordenadas cruz
+      (setq extremo1    (list (- coordenadax longitud) coordenaday ))
+      (setq extremo2    (list (+ coordenadax longitud) coordenaday ))
+      (setq extremo3    (list coordenadax (+ coordenaday longitud) ))
+      (setq extremo4    (list coordenadax (- coordenaday longitud) ))
+      (command "_.line"   extremo1 extremo2 "" )
+      (command "_.line"   extremo3 extremo4 "" )
+      (command "_.circle" coordCentro (* longitud 0.5) "" )
+     )
    )
 
   ;-------------------------------------------
   ; Dibuja la marca para la visibilidad del punto replanteado
-  (defun dibujaLeyenda (punto, texto) (
-    (command "_.mtext"
-	     punto
-	     "_H" dimensiontexto;Altura Letras
-	     "_W" anchoLetrero  ;Ancho leyendas
-	     texto ""
-	     )
+  (defun dibujaLetrero (coor_leyenda_x coor_leyend_y texto) 
+    (
+       (command "_.mtext"
+	(list coor_leyenda_x coor_leyend_y)
+	"_H" dimensiontexto;Altura Letras
+	"_W" anchoLetrero  ;Ancho leyendas
+	texto ""
+       )
      )
-   )
+  )
   
   ;-------------------------------------------4SW3W3
   ; Funcion de picapunto para replanteo
-  ( defun picaPuntoReplanteo () (
-    (setq puntoActual (getpoint "\npica punto replanteo ") )
-    ( dibujaMarcadorPunto puntoActual )
-    ( dibujaLeyenda puntoActual "XXXX" )
- 
-  )
-
   ;-------------------------------------------
   ; Funcion que obtiene
+  (defun picapunto(inputstr)
+    ( (setq punto_picado (getpoint inputstr)) 
+      (setq var_X ( car  punto_picado ) )
+      (setq var_Y ( cadr punto_picado ) )
+      (list var_X var_Y)
+     )
+    )
 
 
 
@@ -86,10 +87,12 @@
 
         
   ;(print "COMANDO REPLANTEO OK")
-   (prompt " >>> REPLANTEO <<< por ESPM ")
+   (write-line " >>> REPLANTEO <<< por ESPM ")
+   (picapunto "pica")
+   ;(dibujaLeyenda 0 0 "holaa")
 
-   ;(picaPuntoReplanteo)
-   ( dibujaLeyenda (getpoint "pica") "XXXX" )
+
+
    
 
   
