@@ -2,7 +2,8 @@
 ; hecho por Edwin Saul Pareja Molina
 ; http://edwinsaul.com
 
-(defun c:repl()
+
+(defun c:replanteo()
   
   ;-------------------------------------------
   
@@ -14,21 +15,23 @@
   (setq origenY 0) 
 
   ; VARIABLES DE DIBUJO
-  (setq dimensiontexto 0.5)
-  (setq dibujarleyenda  1 ) ; TRUE por defecto
-  (setq dibujarmarcador 1 ) ; TRUE por defecto
+  (setq dimensiontexto  1  )
+  (setq anchoLetrero    20 )
+  (setq dibujarleyenda  t  ) ; TRUE por defecto
+  (setq dibujarmarcador t  ) ; TRUE por defecto
+  (setq decimales       3  )
 
   ; VARIABLES INPUT PUNTO
-  (setq nombrePunto       0 ) ; FALSE por defecto
-  (setq nombreTodosPuntos 0 ) ; FALSE por defecto
+  (setq nombrePunto       nill ) ; FALSE por defecto
+  (setq nombreTodosPuntos nill ) ; FALSE por defecto
 
   ; VARIABLES MEMORIA PUNTOS
   ; string que almacena todos los puntos en un string para su manejo 
-  (setq memoriaPuntos "texto\njkjkj\nlalala")
+  (setq memoriaPuntos "#Pts Replanteo\n \n ")
 
   ;-------------------------------------------
   ; Dibuja la marca para la visibilidad del punto replanteado
-  (defun dibujaMarcadorPunto (punto)
+  (defun dibujaMarcadorPunto (punto) (
     (setq longitud ( * dimensiontexto 4 ) )
     (setq coordenadax (car punto ) )
     (setq coordenaday (cadr punto) )
@@ -40,30 +43,54 @@
     (command "_.line"   extremo1 extremo2 "" )
     (command "_.line"   extremo3 extremo4 "" )
     (command "_.circle" coordCentro (* longitud 0.5) "" )
-    (dibujaLeyenda punto memoriaPuntos)
+    )
    )
 
   ;-------------------------------------------
   ; Dibuja la marca para la visibilidad del punto replanteado
-  (defun dibujaLeyenda (punto, texto)
-    (setq longitud ( * dimensiontexto 4 ) )
-    (setq coordenadax (car punto ) )
-    (setq coordenaday (cadr punto) )
-    ; ETIQUETA -----
-    
-    ;---------------
-    
+  (defun dibujaLeyenda (punto, texto) (
+    (command "_.mtext"
+	     punto
+	     "_H" dimensiontexto;Altura Letras
+	     "_W" anchoLetrero  ;Ancho leyendas
+	     texto ""
+	     )
+     )
    )
+  
+  ;-------------------------------------------4SW3W3
+  ; Funcion de picapunto para replanteo
+  ( defun picaPuntoReplanteo () (
+    (setq puntoActual (getpoint "\npica punto replanteo ") )
+    ( dibujaMarcadorPunto puntoActual )
+    ( dibujaLeyenda puntoActual "XXXX" )
+ 
+  )
 
   ;-------------------------------------------
+  ; Funcion que obtiene
+
 
 
   ;-------------------------------------------
 
         
+  ;-------------------------------------------
+
+        
+
+  ;-------------------------------------------
+
+        
+  ;-------------------------------------------
+
+        
   ;(print "COMANDO REPLANTEO OK")
-   (dibujaMarcadorPunto (getpoint "pica un punto "))  
-   (dibujaMarcadorPunto (getpoint "pica un punto ")) 
-   (dibujaMarcadorPunto (getpoint "pica un punto "))
-   (dibujaMarcadorPunto (getpoint "pica un punto "))
+   (prompt " >>> REPLANTEO <<< por ESPM ")
+
+   ;(picaPuntoReplanteo)
+   ( dibujaLeyenda (getpoint "pica") "XXXX" )
+   
+
+  
 )
