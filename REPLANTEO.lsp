@@ -88,7 +88,6 @@
         
   ;(print "COMANDO REPLANTEO OK")
    (write-line " >>> REPLANTEO <<< por ESPM ")
-   (picapunto "pica")
    ;(dibujaLeyenda 0 0 "holaa")
 
 
