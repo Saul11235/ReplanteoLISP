@@ -7,7 +7,7 @@
      ; Variables sistema ----------------
      (setq DIM_cruz 1) 
      (setq DIM_text 0.5) 
-     (setq DIM_weigth 15)
+     (setq DIM_weigth 20)
      (setq SCALE_origen_x 0)
      (setq SCALE_origen_y 0)
      (setq SCALE_x 1)
@@ -16,7 +16,9 @@
      (setq FLAG_draw_label t) ;t por defecto
      (setq FLAG_name_punto nil) ; nil defecto
      (setq CONTADOR_puntos 0)
-     (setq MEMORIA_puntos "#Repl Puntos\n \n")
+     (setq MEMORIA_puntos "")
+     (setq FLAG_nombre_tabla nil)
+     (setq NOMBRE_TABLA "")
 
      ; funciones ------------------------
      (defun PICAR_punto (leyenda)
@@ -73,8 +75,15 @@
      ( defun Registrar_en_memoria (texto_para_memoria)
 	( progn 
 	  (setq MEMORIA_puntos (strcat MEMORIA_puntos texto_para_memoria "\n" ) )
+	  (Aumentar_contador_puntos)
 	 )     
       )
+     ;-----------------------------------
+     (defun BOTON_ActivarNombre()
+       (progn
+	 (setq FLAG_name_punto t)
+	)
+       )
      ;-----------------------------------
      ( defun PICAR_punto_replanteo ()
 	( progn
@@ -85,23 +94,61 @@
 	  (setq VERDADERO_REPLANTEO_X (VERDADERO_x REPLANTEO_X ))
 	  (setq VERDADERO_REPLANTEO_Y (VERDADERO_Y REPLANTEO_Y ))
 	  (setq LetreroTabla (strcat (rtos VERDADERO_REPLANTEO_X) "\t" (rtos VERDADERO_REPLANTEO_Y) ) )
-	  (setq LetreroPunto (strcat "[ " (rtos VERDADERO_REPLANTEO_X) " ; " (rtos VERDADERO_REPLANTEO_Y) " ]") )
+	  (setq LetreroPunto (strcat "[  " (rtos VERDADERO_REPLANTEO_X) " ; " (rtos VERDADERO_REPLANTEO_Y) " ]") )
 	  (write-line LetreroPunto)
-
+	  ; -------------
 	  (if FLAG_draw_cruz
 	    (DRAW_cruz REPLANTEO_X REPLANTEO_Y)
 	    ()
 	    )
-
+	  ; -------------
+	  ( if FLAG_name_punto
+	       (progn
+		 (setq FLAG_name_punto nil)
+	         (setq letrero_input (strcat "Nombre el " (rtos (+ 1 CONTADOR_puntos) ) " punto: "))
+		 (setq NOMBRE_REPLANTEO (getstring letrero_input))
+		 (setq LetreroTabla (strcat LetreroTabla "\t" NOMBRE_REPLANTEO ))
+		 (setq LetreroPunto (strcat " " NOMBRE_REPLANTEO "\n" LetreroPunto ))
+		 )
+	       ()
+	   )
+	  ; -------------
 	  (if FLAG_draw_label
 	    (DRAW_label REPLANTEO_X REPLANTEO_Y LetreroPunto)
 	    ()
 	    )
-
-
-
+	  ; -------------
+	  (Registrar_en_memoria LetreroTabla)
+	  ; -------------
 	  )     
       )
+     ;-----------------------------------
+     (defun PICAR_tabla ()
+       ( progn
+	 (setq PUNTO_TABLA (PICAR_punto "punto para tabla")) 
+	 (setq Tabla_X (car  PUNTO_TABLA) )
+	 (setq Tabla_Y (cadr PUNTO_TABLA) )
+	 (setq stringTituloTabla "")
+	 (if FLAG_nombre_tabla
+	   (setq stringTituloTabla (strcat "\n# " NOMBRE_TABLA) )
+	   ()
+	   )
+	 (setq String_superior (strcat "# " (rtos CONTADOR_puntos ) " puntos" stringTituloTabla "\n#--------\n\n") )
+	 (setq DatosTabla (strcat String_superior MEMORIA_puntos "\n#--------" ))
+
+	 (DRAW_label Tabla_X Tabla_Y DatosTabla)
+	)
+       )
+     ;-----------------------------------
+     (defun PONER_nombre_tabla () 
+       (progn
+	 (setq FLAG_nombre_tabla t)
+	 (setq NOMBRE_TABLA (getstring "Nombre del replanteo: "))
+	)
+       )
+     ;-----------------------------------
+
+     ;-----------------------------------
 
      ;-----------------------------------
 
@@ -142,7 +189,16 @@
      ;(Registrar_en_memoria "xyz\t444\t988")
      ;(DRAW_label 0 0 MEMORIA_puntos)
 
-     (PICAR_punto_replanteo)
+     ;(PONER_nombre_tabla)
+
+     ;(PICAR_punto_replanteo)
+     ;(PICAR_punto_replanteo)
+     ;(BOTON_ActivarNombre)
+     ;(PICAR_punto_replanteo)
+     ;(PICAR_punto_replanteo)
+     ;(BOTON_ActivarNombre)
+     ;(PICAR_punto_replanteo)
+     ;(PICAR_tabla)
 
 
      ; Finalizacion---------------------
