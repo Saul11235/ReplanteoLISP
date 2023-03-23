@@ -53,14 +53,14 @@
 	 )
       )
      ;-----------------------------------
-     ( defun VERDADERO_x (xleido)
+     ( defun VERDADERO_x (xleido) ; calcula la coordenada real de terreno
 	( progn
 	  (setq dist_to_origin (- xleido SCALE_origen_x))
 	  (* dist_to_origin SCALE_x)
 	 )     
       )
      ;-----------------------------------
-     ( defun VERDADERO_y (yleido)
+     ( defun VERDADERO_y (yleido) ; calcula la coordenada real de terreno
 	( progn
 	  (setq dist_to_origin (- yleido SCALE_origen_y))
 	  (* dist_to_origin SCALE_y)
@@ -147,9 +147,38 @@
 	)
        )
      ;-----------------------------------
-
+     (defun FALSO_x (xleido) ; calcula x en plano digital
+       ( progn
+	 (setq dist_virtual (/ xleido SCALE_x))
+	 (+ SCALE_origen_x dist_virtual)
+	)
+       )
      ;-----------------------------------
-
+     (defun FALSO_y (yleido) ; calcula y en plano digital
+       ( progn
+	 (setq dist_virtual (/ yleido SCALE_y))
+	 (+ SCALE_origen_y dist_virtual)
+	)
+       )
+     ;-----------------------------------
+     ; FUNCION QUE DIBUJA UN PUNTO SI SE CONOCEN 
+     ; SUS COORDENADAS DE TERRENO 
+     ( defun DIBUJA_PUNTO_XY(xterreno yterreno) 
+	(progn
+	  (DRAW_cruz (FALSO_x xterreno) (FALSO_y yterreno))
+	  (setq etiqueta_pto_dibujado (strcat " < " (rtos xterreno ) " ; " (rtos yterreno) " >") )
+	  (DRAW_label (FALSO_x xterreno) (FALSO_y yterreno) etiqueta_pto_dibujado )
+	 )     
+      )
+     ; FUNCION QUE DIBUJA UN PUNTO SI SE CONOCEN 
+     ; SUS COORDENADAS DE TERRENO y NOMBRE PTO
+     ( defun DIBUJA_PUNTO_XYN(xterreno yterreno nombrePto) 
+	(progn
+	  (DRAW_cruz (FALSO_x xterreno) (FALSO_y yterreno))
+	  (setq etiqueta_pto_dibujado (strcat "  ##" nombrePto "\n < " (rtos xterreno ) " ; " (rtos yterreno) " >") )
+	  (DRAW_label (FALSO_x xterreno) (FALSO_y yterreno) etiqueta_pto_dibujado )
+	 )     
+      )
      ;-----------------------------------
 
      ;-----------------------------------
@@ -199,6 +228,16 @@
      ;(BOTON_ActivarNombre)
      ;(PICAR_punto_replanteo)
      ;(PICAR_tabla)
+
+     ;(princ (FALSO_x -1))
+     ;(princ (FALSO_y  3.3))
+
+     ;(DIBUJA_PUNTO_XY 1  -3.2)
+     ;(DIBUJA_PUNTO_XY 2.2 4)
+
+     ;(DIBUJA_PUNTO_XYN 10  -3.2 "HOLAMUNDO")
+     ;(DIBUJA_PUNTO_XYN -1 -2.2  "HOLAOTRAVEZ")
+
 
 
      ; Finalizacion---------------------
