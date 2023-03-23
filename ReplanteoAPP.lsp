@@ -6,7 +6,7 @@
     ( progn
      ; Variables sistema ----------------
      (setq DIM_cruz 1) 
-     (setq DIM_text 1) 
+     (setq DIM_text 0.5) 
      (setq DIM_weigth 15)
      (setq SCALE_origen_x 0)
      (setq SCALE_origen_y 0)
@@ -14,7 +14,9 @@
      (setq SCALE_y 1)
      (setq FLAG_draw_cruz  t) ;t por defecto
      (setq FLAG_draw_label t) ;t por defecto
+     (setq FLAG_name_punto nil) ; nil defecto
      (setq CONTADOR_puntos 0)
+     (setq MEMORIA_puntos "#Repl Puntos\n \n")
 
      ; funciones ------------------------
      (defun PICAR_punto (leyenda)
@@ -38,10 +40,10 @@
 	 )     
       )
      ;-----------------------------------
-     ( defun DRAW_label (xlabel ylabel texto)
+     ( defun DRAW_label (xlabelCoord ylabelCoord texto)
 	( progn
 	  ( command "_.mtext"
-             (list xlabel ylabel)		    
+             (list xlabelCoord ylabelCoord)		    
 	     "_H" DIM_text
 	     "_W" DIM_weigth
 	     texto ""
@@ -68,8 +70,38 @@
 	  (setq CONTADOR_puntos ( + CONTADOR_puntos 1)) )
       )
      ;-----------------------------------
-
+     ( defun Registrar_en_memoria (texto_para_memoria)
+	( progn 
+	  (setq MEMORIA_puntos (strcat MEMORIA_puntos texto_para_memoria "\n" ) )
+	 )     
+      )
      ;-----------------------------------
+     ( defun PICAR_punto_replanteo ()
+	( progn
+	  (setq letrero_input (strcat "Seleccione el " (rtos (+ 1 CONTADOR_puntos) ) " punto"))
+	  (setq pto_REPLANTEO (PICAR_punto letrero_input))
+	  (setq REPLANTEO_X (car  pto_REPLANTEO))
+	  (setq REPLANTEO_Y (cadr pto_REPLANTEO))
+	  (setq VERDADERO_REPLANTEO_X (VERDADERO_x REPLANTEO_X ))
+	  (setq VERDADERO_REPLANTEO_Y (VERDADERO_Y REPLANTEO_Y ))
+	  (setq LetreroTabla (strcat (rtos VERDADERO_REPLANTEO_X) "\t" (rtos VERDADERO_REPLANTEO_Y) ) )
+	  (setq LetreroPunto (strcat "[ " (rtos VERDADERO_REPLANTEO_X) " ; " (rtos VERDADERO_REPLANTEO_Y) " ]") )
+	  (write-line LetreroPunto)
+
+	  (if FLAG_draw_cruz
+	    (DRAW_cruz REPLANTEO_X REPLANTEO_Y)
+	    ()
+	    )
+
+	  (if FLAG_draw_label
+	    (DRAW_label REPLANTEO_X REPLANTEO_Y LetreroPunto)
+	    ()
+	    )
+
+
+
+	  )     
+      )
 
      ;-----------------------------------
 
@@ -92,7 +124,9 @@
 
      ;(DRAW_label 0 0 "hola")
      ;(DRAW_label 2 0 "saludos\na ti")
-     ;(DRAW_label 2 3 "123\nabc")
+     ;(DRAW_label 2.1 3 "123\nabc")
+
+     ;(DRAW_label 2.44 3.55 "fff\ggg")
       
      ;(princ (VERDADERO_x 55))
      ;(princ (VERDADERO_x 22))
@@ -102,6 +136,13 @@
      ;(princ CONTADOR_puntos)
      ;(Aumentar_contador_puntos)
      ;(princ CONTADOR_puntos)
+
+     ;(Registrar_en_memoria "abc\tddd\t455")
+     ;(Registrar_en_memoria "123\tfff\t788")
+     ;(Registrar_en_memoria "xyz\t444\t988")
+     ;(DRAW_label 0 0 MEMORIA_puntos)
+
+     (PICAR_punto_replanteo)
 
 
      ; Finalizacion---------------------
