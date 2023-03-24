@@ -1,3 +1,7 @@
 *.swp
 *.dwg
+*.prv
+*.VLX
+*.fas
+*._ls
 
