@@ -180,6 +180,14 @@
 	 )     
       )
      ;-----------------------------------
+     ( defun LANZA_INTERFAZ ()
+	( progn
+	  (setq INTERFAZ (new_dialog "Replanteo"))
+	  (action_tile "Aceptar"  "(done_dialog 1)") 
+	  (action_tile "Cancelar" "(done_dialog 0)") 
+	  (start_dialog INTERFAZ)
+	 )
+      )
 
      ;-----------------------------------
 
@@ -237,6 +245,7 @@
 
      ;(DIBUJA_PUNTO_XYN 10  -3.2 "HOLAMUNDO")
      ;(DIBUJA_PUNTO_XYN -1 -2.2  "HOLAOTRAVEZ")
+     (LANZA_INTERFAZ)
 
 
 
