@@ -2,7 +2,7 @@
 
 (princ "\nEjecuta la aplicacion REPLAnteo")
 
-( defun c:repla () 
+( defun c:REPL () 
     ( progn
      ; Variables sistema ----------------
      (setq DIM_cruz 1) 
