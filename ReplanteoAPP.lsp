@@ -143,7 +143,7 @@
      (defun PONER_nombre_tabla () 
        (progn
 	 (setq FLAG_nombre_tabla t)
-	 (setq NOMBRE_TABLA (getstring "Nombre del replanteo: "))
+	 (setq NOMBRE_TABLA (getstring "Cabecera Tabla : "))
 	)
        )
      ;-----------------------------------
@@ -208,6 +208,8 @@
                 ((= comando-seleccionado "N") (BOTON_ActivarNombre))
                 ((= comando-seleccionado "t") (PICAR_tabla))
                 ((= comando-seleccionado "T") (PICAR_tabla))
+                ((= comando-seleccionado "c") (PONER_nombre_tabla))
+                ((= comando-seleccionado "C") (PONER_nombre_tabla))
                 (T (write-line "Comando no reconocido")))
         )
       )
