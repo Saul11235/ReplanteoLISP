@@ -1,4 +1,4 @@
-; Funcion de replanteo en LISP escrita por ESP
+ Funcion de replanteo en LISP escrita por ESP
 
 (princ "\nEjecuta la aplicacion REPLAnteo")
 
@@ -32,10 +32,10 @@
      ;-----------------------------------
      ( defun DRAW_cruz (xcruz ycruz)
 	( progn
-          (setq extremo1 (list (- xcruz DIM_cruz) ycruz 0))
-          (setq extremo2 (list (+ xcruz DIM_cruz) ycruz 0))
-          (setq extremo3 (list xcruz (+ ycruz DIM_cruz) 0))
-          (setq extremo4 (list xcruz (- ycruz DIM_cruz) 0))
+          (setq extremo1 (list (- xcruz DIM_cruz) ycruz))
+          (setq extremo2 (list (+ xcruz DIM_cruz) ycruz))
+          (setq extremo3 (list xcruz (+ ycruz DIM_cruz)))
+          (setq extremo4 (list xcruz (- ycruz DIM_cruz)))
           (command "_.line"   extremo1 extremo2 "" )
           (command "_.line"   extremo3 extremo4 "" )
           (command "_.circle" (list xcruz ycruz) (* DIM_cruz 0.5) "" )
@@ -85,10 +85,10 @@
 	)
        )
      ;-----------------------------------
-     ( defun PICAR_punto_replanteo (pto_REPLANTEO)
+     ( defun PICAR_punto_replanteo ()
 	( progn
-	  ;(setq letrero_input (strcat "Seleccione el " (rtos (+ 1 CONTADOR_puntos) ) " punto"))
-	  ;(setq pto_REPLANTEO (PICAR_punto letrero_input))
+	  (setq letrero_input (strcat "Seleccione el " (rtos (+ 1 CONTADOR_puntos) ) " punto"))
+	  (setq pto_REPLANTEO (PICAR_punto letrero_input))
 	  (setq REPLANTEO_X (car  pto_REPLANTEO))
 	  (setq REPLANTEO_Y (cadr pto_REPLANTEO))
 	  (setq VERDADERO_REPLANTEO_X (VERDADERO_x REPLANTEO_X ))
@@ -180,38 +180,12 @@
 	 )     
       )
      ;-----------------------------------
-     ; LOOP principal del programa, picara un punto 
-     ; para replanteo
-     ( defun LOOP_PROGRAMA ()
-	( progn
-	  (while t
-            (initget 128)
-	    (setq letrero_input (strcat "Seleccione el punto Nro " (rtos (+ 1 CONTADOR_puntos) ) " o digite comando > "))
-            (if (setq input_usuario (getpoint letrero_input))
-              (if (listp input_usuario)
-	        ;-----------------
-	        ; caso se selecciona un punto
-  	        (PICAR_punto_replanteo input_usuario)
-	        ; --------------------
-	        ; caso que  se coloque un comando
-                (SELECCIONA-COMANDO input_usuario)
-              )
-             )
-	   )
-	 )
+     ( defun LOOP_Programa()
+      ()
       )
-     ;- FUNCION QUE SELECCIONA COMANDO---
 
-      ( defun SELECCIONA-COMANDO (comando-seleccionado)
-        ( progn
-          (cond ((= comando-seleccionado "n") (BOTON_ActivarNombre))
-                ((= comando-seleccionado "N") (BOTON_ActivarNombre))
-                ((= comando-seleccionado "t") (PICAR_tabla))
-                ((= comando-seleccionado "T") (PICAR_tabla))
-                (T (write-line "Comando no reconocido")))
-        )
-      )
-     
+      
+
      ;-----------------------------------
 
      ;-----------------------------------
@@ -272,12 +246,8 @@
 
      ;(DIBUJA_PUNTO_XYN 10  -3.2 "HOLAMUNDO")
      ;(DIBUJA_PUNTO_XYN -1 -2.2  "HOLAOTRAVEZ")
+     
 
-
-
-     ;Comienza Loop Programa -----------
-
-     (LOOP_PROGRAMA)
 
      ; Finalizacion---------------------
      (write-line "\n>>>>>>> FIN <<<<<<<<<<")
