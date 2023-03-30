@@ -9,6 +9,10 @@ coordenadas absolutas y relativas de un dibujo a escala
 conociendo el orgien de coordenadas y/o escalas relativas
 para el replanteo topografico de planos o dibujos CAD.
 
+<p align="center">
+  <img src="https://media3.giphy.com/media/2yvAY92bt9icw6Lote/giphy.gif" alt="animated" />
+</p>
+
 # links consultados y de interes
 - https://autolisp-exchange.com/Tutorials/MyDialogs.htm#MyEditText
 
